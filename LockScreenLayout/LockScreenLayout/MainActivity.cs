@@ -3,27 +3,33 @@ using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
-using AndroidX.AppCompat.Widget;
 using AndroidX.AppCompat.App;
-using Google.Android.Material.FloatingActionButton;
-using Google.Android.Material.Snackbar;
+using Google.Android.Material.Button;
+using Android.Widget;
 
 namespace LockScreenLayout
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
+        MaterialButton viewDetail;
+        MaterialButton dismiss;
+        MaterialButton snooze;
+        TextView textView;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
-            Toolbar toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
+            viewDetail = FindViewById<MaterialButton>(Resource.Id.view_detail);
+            dismiss = FindViewById<MaterialButton>(Resource.Id.dismiss);
+            snooze = FindViewById<MaterialButton>(Resource.Id.snooze);
+            textView = FindViewById<TextView>(Resource.Id.textView1);
 
-            FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
-            fab.Click += FabOnClick;
+            viewDetail.Click += ViewDetailOnClick;
+            dismiss.Click += DismissOnClick;
+            snooze.Click += SnoozeOnClick;
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -43,11 +49,19 @@ namespace LockScreenLayout
             return base.OnOptionsItemSelected(item);
         }
 
-        private void FabOnClick(object sender, EventArgs eventArgs)
+        private void ViewDetailOnClick(object sender, EventArgs eventArgs)
         {
-            View view = (View)sender;
-            Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (View.IOnClickListener)null).Show();
+            textView.Text = "View Detail Clicked";
+        }
+
+        private void DismissOnClick(object sender, EventArgs eventArgs)
+        {
+            textView.Text = "Dismiss Clicked";
+        }
+
+        private void SnoozeOnClick(object sender, EventArgs eventArgs)
+        {
+            textView.Text = "Snooze Clicked";
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
